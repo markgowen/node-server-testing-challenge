@@ -1,10 +1,15 @@
 const db = require("../../data/dbConfig");
 
 module.exports = {
+  find,
   insert,
   remove,
   findById
 };
+
+async function find() {
+  return db("users");
+}
 
 async function insert(user) {
   return null;
