@@ -1,7 +1,7 @@
 const Users = require("./user-model");
 const db = require("../../data/dbConfig");
-const server = require('../server')
-const request = require('supertest')
+const server = require("../server");
+const request = require("supertest");
 
 describe("User Model", () => {
   beforeEach(async () => {
@@ -28,13 +28,26 @@ describe("User Model", () => {
     });
   });
 
-  describe('the remove function', () => {
-      it('should remove the user', async () => {
-        const id = { id: [0] };
-        await Users.remove(id);
+  describe("the remove function", () => {
+    it("should remove the user", async () => {
+      const userInfo = { name: "Don" };
+      const user = await Users.insert(userInfo);
 
-        const users = await db('users');
-        expect(users.length).toBe(0);
-      })
-  })
+      expect(user).toEqual({ id: 1, name: "Don" });
+
+      const id = 1;
+      await Users.remove(id);
+
+      const users = await db("users");
+      expect(users.length).toBe(0);
+    });
+
+    it("should return status 200", () => {
+      return request(server)
+        .del("/users")
+        .then(res => {
+          expect(res.status).toBe(200);
+        });
+    });
+  });
 });
