@@ -30,7 +30,7 @@ describe("User Model", () => {
 
   describe('the remove function', () => {
       it('should remove the user', async () => {
-        const id = { id: 1 };
+        const id = { id: [0] };
         await Users.remove(id);
 
         const users = await db('users');
