@@ -12,7 +12,11 @@ async function find() {
 }
 
 async function insert(user) {
-  return null;
+  return db('users')
+    .insert(user)
+    .then(ids => {
+      return db('users').where({ id: ids[0] }).first();
+    })
 }
 
 async function remove(id) {
