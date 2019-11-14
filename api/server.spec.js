@@ -1,20 +1,26 @@
-const request = require('supertest')
-const server = require('./server')
-const db = require('../data/dbConfig')
+const request = require("supertest");
+const server = require("./server");
+const db = require("../data/dbConfig");
 
-describe('The Server', () => {
+describe("The Server", () => {
+  beforeEach(async () => {
+    await db("users").truncate();
+  });
 
-    beforeEach(async () => {
-        await db('users').truncate();
-    })
-
-    describe('GET /users', () => {
-        it('Should return status 200', () => {
-            return request(server)
-                .get('/users')
-                .then(res => {
-                    expect(res.status).toBe(200);
-                })
-        })
-    })
-})
+  describe("GET /users", () => {
+    it("Should return status 200", () => {
+      return request(server)
+        .get("/users")
+        .then(res => {
+          expect(res.status).toBe(200);
+        });
+    });
+    it("Should return the correct object", () => {
+      return request(server)
+        .get("/users")
+        .then(res => {
+          expect(res.type).toBe("application/json");
+        });
+    });
+  });
+});
